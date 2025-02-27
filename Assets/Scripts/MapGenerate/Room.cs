@@ -1,5 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+
+using Random = UnityEngine.Random;
+
 
 public class Room : MonoBehaviour
 {
@@ -12,6 +17,14 @@ public class Room : MonoBehaviour
     public Door rightDoor;
     public Door topDoor;
     public Door bottomDoor;
+
+    [Header("Enemy")]
+    public bool isClear = false;
+    public int enemyCount;
+    [SerializeField]
+    private GameObject doorCollider;
+
+    public EnemyManager enemySpawner;
 
     private bool updatedDoors = false;
 
@@ -53,6 +66,8 @@ public class Room : MonoBehaviour
         }
 
         RoomController.instance.RegisterRoom(this);
+
+        enemyCount = Random.Range(4, 9);
     }
 
     private void Update()
@@ -61,6 +76,31 @@ public class Room : MonoBehaviour
         {
             RemoveUnconnectedDoors();
             updatedDoors = true;
+        }
+    }
+
+    public void OpenDoor()
+    {
+        isClear = true;
+        // 현재 방 오픈
+        doorCollider.SetActive(false);
+
+        // 주변 방 문 오픈
+        if (RoomController.instance.loadedRooms.Find(r => r.X == X + 1 && r.Y == Y))
+        {
+            RoomController.instance.loadedRooms.Single(r => r.X == X + 1 && r.Y == Y).doorCollider.SetActive(false);
+        }
+        if (RoomController.instance.loadedRooms.Find(r => r.X == X - 1 && r.Y == Y))
+        {
+            RoomController.instance.loadedRooms.Single(r => r.X == X - 1 && r.Y == Y).doorCollider.SetActive(false);
+        }
+        if (RoomController.instance.loadedRooms.Find(r => r.X == X && r.Y == Y + 1))
+        {
+            RoomController.instance.loadedRooms.Single(r => r.X == X && r.Y == Y + 1).doorCollider.SetActive(false);
+        }
+        if (RoomController.instance.loadedRooms.Find(r => r.X == X && r.Y == Y - 1))
+        {
+            RoomController.instance.loadedRooms.Single(r => r.X == X && r.Y == Y - 1).doorCollider.SetActive(false);
         }
     }
 
@@ -151,6 +191,22 @@ public class Room : MonoBehaviour
         if(collision.tag == "Player")
         {
             RoomController.instance.OnPlayerEnterRoom(this);
+            Debug.Log($"플레이어 입장 {X}, {Y}");
+
+            if (isClear == false)
+            {
+                Invoke("StartRoomStage", 0.2f);
+                
+            }
+        }
+    }
+
+    private void StartRoomStage()
+    {
+        doorCollider.SetActive(true);
+        for (int i = 0; i < enemyCount; i++)
+        {
+            enemySpawner.SpawnEnemy();
         }
     }
 }
