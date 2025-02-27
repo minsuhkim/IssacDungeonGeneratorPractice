@@ -1,6 +1,9 @@
 # IssacDungeonGeneratorPractice
  Dungeon Generator Practice
 
+해당 프로젝트에 대한 간단한 설명
+빌드파일 제출해야함
+
 ## 맵 생성
 1. Room 생성(Start, Empty, End)
    - Square 스프라이트를 사용하여 Wall을 배치
