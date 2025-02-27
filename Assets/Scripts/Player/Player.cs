@@ -58,13 +58,13 @@ public class Player : MonoBehaviour
 
     private void LookAt()
     {
-        if(mousePos.x > transform.position.x)
+        if(dir.x < 0)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = new Vector3(-1, 1, 0);
         }
-        else if(mousePos.x < transform.position.x)
+        else if (dir.x > 0)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            transform.localScale = new Vector3(1, 1, 0);
         }
     }
 

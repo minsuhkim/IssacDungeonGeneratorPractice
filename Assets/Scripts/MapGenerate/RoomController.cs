@@ -18,7 +18,7 @@ public class RoomController : MonoBehaviour
     string currentWorldName = "Basement";
 
     RoomInfo currentLoadRoomData;
-    Room curRoom;
+    public Room curRoom;
 
     Queue<RoomInfo> loadRoomQueue = new Queue<RoomInfo>();
 
