@@ -85,6 +85,8 @@ public class Room : MonoBehaviour
         // 현재 방 오픈
         doorCollider.SetActive(false);
 
+        Debug.Log($"door open {X}, {Y}");
+
         // 주변 방 문 오픈
         if (RoomController.instance.loadedRooms.Find(r => r.X == X + 1 && r.Y == Y))
         {

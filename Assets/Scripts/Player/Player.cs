@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public GameObject bulletPrefab;
-
     public float speed = 5.0f;
+
+    public int hp = 3;
 
     private float h;
     private float v;
@@ -87,5 +87,10 @@ public class Player : MonoBehaviour
     {
         isFire = false;
         punchCollider.enabled = false;
+    }
+
+    public void DecreaseHP()
+    {
+        hp--;
     }
 }
