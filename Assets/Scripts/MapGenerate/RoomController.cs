@@ -20,12 +20,12 @@ public class RoomController : MonoBehaviour
     RoomInfo currentLoadRoomData;
     public Room curRoom;
 
-    Queue<RoomInfo> loadRoomQueue = new Queue<RoomInfo>();
+    public Queue<RoomInfo> loadRoomQueue = new Queue<RoomInfo>();
 
     public List<Room> loadedRooms = new List<Room>();
     bool isLoadingRoom = false;
 
-    bool spawnBossRoom = false;
+    public bool spawnBossRoom = false;
     bool updatedRooms = false;
 
     private void Awake()
@@ -47,15 +47,15 @@ public class RoomController : MonoBehaviour
         {
             return;
         }
-        if(loadRoomQueue.Count == 0)
+        if (loadRoomQueue.Count == 0)
         {
             if (!spawnBossRoom)
             {
                 StartCoroutine(SpawnBossRoom());
             }
-            else if(spawnBossRoom && !updatedRooms)
+            else if (spawnBossRoom && !updatedRooms)
             {
-                foreach(Room room in loadedRooms)
+                foreach (Room room in loadedRooms)
                 {
                     room.RemoveUnconnectedDoors();
                 }
@@ -73,7 +73,7 @@ public class RoomController : MonoBehaviour
     {
         spawnBossRoom = true;
         yield return new WaitForSeconds(0.5f);
-        if(loadRoomQueue.Count == 0)
+        if (loadRoomQueue.Count == 0)
         {
             Room bossRoom = loadedRooms[loadedRooms.Count - 1];
             Room tempRoom = new Room(bossRoom.X, bossRoom.Y);
@@ -155,5 +155,9 @@ public class RoomController : MonoBehaviour
     {
         CameraController.instance.curRoom = room;
         curRoom = room;
+        if (curRoom.name.Contains("End"))
+        {
+            GameManager.instance.SetBossHPSlider();
+        }
     }
 }

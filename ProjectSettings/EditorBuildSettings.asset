@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/DungeonRooms/Intro.unity
+    guid: 888314ee2ebfe0f41adb17b5c07744e8
+  - enabled: 1
     path: Assets/Scenes/DungeonRooms/BasementMain.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
@@ -13,7 +16,7 @@ EditorBuildSettings:
     guid: 9689d0d60ec3f7146b516e3ab03c4d73
   - enabled: 1
     path: Assets/Scenes/DungeonRooms/BasementEnd.unity
-    guid: cb56368d297385c4da7cadd241959438
+    guid: a592a547f1a93e54c8fb8d0eb36f1922
   - enabled: 1
     path: Assets/Scenes/DungeonRooms/BasementEmpty.unity
     guid: 93ba0101c72b051458161db63b8fa56e

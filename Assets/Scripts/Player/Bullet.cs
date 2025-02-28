@@ -4,9 +4,14 @@ public class Bullet : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Enemy")
+        if(collision.tag == "Player")
         {
-            Destroy(collision.gameObject);
+            collision.GetComponent<Player>().DecreaseHP();
+            Destroy(gameObject);
+        }
+        else if(collision.tag == "Wall")
+        {
+            Destroy(gameObject);
         }
     }
 }

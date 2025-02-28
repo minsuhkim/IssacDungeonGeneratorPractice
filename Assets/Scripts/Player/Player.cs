@@ -6,27 +6,28 @@ public class Player : MonoBehaviour
 
     public int hp = 3;
 
+
     private float h;
     private float v;
     private Vector3 dir;
-    [SerializeField]
-    private Vector3 attackDir;
 
-    [SerializeField]
-    private float fireForce = 10.0f;
-    [SerializeField]
-    private float attackRate = 0.2f;
+    public AttackType attackType;
+    public int attack;
+    public float attackRate;
     [SerializeField]
     private CapsuleCollider2D punchCollider;
-    private Vector3 mousePos;
+
+    private bool isHurt = false;
 
     private Animator anim;
 
-    private bool fireKeyDown = false;
-    private bool isFire = false;
+    private bool attckKeyDown = false;
+    private bool isAttack = false;
+    private bool isLive = true;
 
     private void Start()
     {
+        isLive = true;
         anim = GetComponent<Animator>();
     }
 
@@ -34,7 +35,7 @@ public class Player : MonoBehaviour
     {
         UpdateInput();
         Move();
-        Fire();
+        Attack();
         LookAt();
     }
 
@@ -42,13 +43,12 @@ public class Player : MonoBehaviour
     {
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
-        fireKeyDown = Input.GetButton("Fire1");
-        mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        attckKeyDown = Input.GetButtonDown("Fire1");
     }
 
     private void Move()
     {
-        if (!isFire)
+        if (isLive && !isAttack)
         {
             dir = new Vector3(h, v, 0);
             transform.position += dir.normalized * speed * Time.deltaTime;
@@ -68,29 +68,71 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Fire()
+    private void Attack()
     {
-        if (fireKeyDown && !isFire)
+        if (isLive && attckKeyDown && !isAttack)
         {
-            anim.SetTrigger("onAttack");
-            attackDir = (mousePos - transform.position);
-            attackDir.z = 0;
+            switch (attackType)
+            {
+                case AttackType.Kick:
+                    anim.SetTrigger("onKick");
+                    break;
+                case AttackType.Punch:
+                    anim.SetTrigger("onPunch");
+                    break;
+            }
+            
 
-            isFire = true;
+            isAttack = true;
             punchCollider.enabled = true;
-            Invoke("FireOff", attackRate);
+            Invoke("ColliderOff", 0.2f * attackRate);
+            Invoke("AttackOff", attackRate);
         }
     }
 
-
-    private void FireOff()
+    private void ColliderOff()
     {
-        isFire = false;
         punchCollider.enabled = false;
+    }
+
+    private void AttackOff()
+    {
+        isAttack = false;
+        
     }
 
     public void DecreaseHP()
     {
-        hp--;
+        if (!isHurt)
+        {
+            isHurt = true;
+            Invoke("EndHurt", 1f);
+            hp--;
+            if (hp <= 0)
+            {
+                hp = 0;
+                isLive = false;
+                GameManager.instance.GameOver();
+            }
+            else
+            {
+                anim.SetTrigger("onHurt");
+            }
+            GameManager.instance.HpUIUpdate();
+        }        
+    }
+
+    private void EndHurt()
+    {
+        isHurt = false;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Room")
+        {
+            isHurt = true;
+            Invoke("EndHurt", 1f);
+        }
     }
 }

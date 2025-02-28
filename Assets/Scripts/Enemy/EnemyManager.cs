@@ -17,6 +17,14 @@ public class EnemyManager : MonoBehaviour
             room.enemyCount = 0;
             room.OpenDoor();
         }
+        else if (room.name.Contains("End"))
+        {
+            Vector2 roomLocation = new Vector2(room.X * room.Width, room.Y * room.Height);
+            Vector2 spawnPosition = new Vector2(roomLocation.x, roomLocation.y);
+            room.enemyCount = 1;
+            GameObject clone = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+            clone.GetComponent<Boss>().room = room;
+        }
         else
         {
             Vector2 roomLocation = new Vector2(room.X * room.Width, room.Y * room.Height);
