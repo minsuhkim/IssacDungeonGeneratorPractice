@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -52,11 +53,13 @@ public class GameManager : MonoBehaviour
 
     public void OnRetryButtonClick()
     {
-        //Time.timeScale = 1;
-        RoomController.instance.loadedRooms.Clear();
-        RoomController.instance.loadRoomQueue.Clear();
+        Time.timeScale = 1;
+        RoomController.instance.loadedRooms = new List<Room>();
+        RoomController.instance.loadRoomQueue = new Queue<RoomInfo>();
+        DungeonCrawlerController.positionsVisited = new List<Vector2Int>();
         SceneManager.LoadScene(1);
     }
+
 
     public void QuitButtonClick()
     {
