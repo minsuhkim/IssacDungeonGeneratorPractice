@@ -1,25 +1,16 @@
 # IssacDungeonGeneratorPractice
  Dungeon Generator Practice
 
-해당 프로젝트에 대한 간단한 설명
-빌드파일 제출해야함
-
-## 맵 생성
-1. Room 생성(Start, Empty, End)
-   - Square 스프라이트를 사용하여 Wall을 배치
-   -  Square 스프라이트를 사용하여 left, right, top, bottom Door 배치
-
-2. Main Scene에서 LoadSceneAsync로 Room 들을 불러오는 방식으로 맵 생성을 진행할 예정
-   - BasementStart Scene을 복사하여 BasementEmpty, BasementEnd Scene 생성
-
-3. 자료구조 Queue를 사용
-   - loadRoomQueue를 생성하여 생성하는 Room 관리
-   - Update에서 LoadSceneAsync를 사용하여 Scene들을 Load(Async 사용을 위해 코루틴 활용)
-
-
-
-<br>
-
+게임 설명
+- 아이작이라는 게임의 장르인 로그라이크 장르를 하나의 stage만 구현한 게임입니다.
+- 방향키로 이동할 수 있고, left ctrl로 공격입니다.
+- 게임 시작 시 Kick과 Punch 중 하나를 선택하여 진행합니다.
+- Tab을 눌러 미니맵을 볼 수 있습니다.
+- Esc를 눌러 일시정지할 수 있습니다.
+- 일시정지 화면에서는 왼쪽부터 차례대로 재개, 재시작, 게임 종료 버튼이 있습니다.
+-  또한, 우측 상단의 일시정지 버튼을 눌러 일시정지할 수 있습니다.
+- 보스를 잡거나 플레이어가 죽으면 게임이 종료됩니다.
+- 
 ## 개선점
 아이디어
 - 아이템
